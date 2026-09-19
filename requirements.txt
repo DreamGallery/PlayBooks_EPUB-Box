@@ -1,0 +1,8 @@
+pillow>=10.0
+requests>=2.31
+cryptography>=41.0
+websocket-client>=1.6
+lxml>=5.0
+pycryptodome>=3.20
+flet[desktop]==1.0.0
+Send2Trash>=1.8.3,<2

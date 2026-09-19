@@ -1,0 +1,77 @@
+# Private runtime directories (also match nested copies)
+.chrome-profile*/
+.playbooks-state*/
+playbooks_work/
+.gui-settings.json
+.flet-settings.json
+.flet/
+/acsm/
+hires/
+cache/
+downloads/
+
+# ADE activation files, credentials and private keys
+activation.xml
+device.xml
+devicesalt
+*.der
+*.key
+*.pem
+*.p12
+*.pfx
+credentials*.json
+secrets*.json
+tokens*.json
+.env
+.env.*
+!.env.example
+
+# Cookie exports and Chromium profile databases, including custom profiles
+cookies*.txt
+cookies*.json
+Cookies
+Cookies-*
+Login Data*
+Web Data*
+History
+History-*
+Local State
+Preferences
+Secure Preferences
+Sessions/
+Session Storage/
+Local Storage/
+IndexedDB/
+
+# Books, reports and temporary outputs
+*.acsm
+*.epub
+*.pdf
+*.log
+*.part
+*.tmp
+*.bak
+report*.json
+*-report.json
+
+# Python / tools / build products
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
