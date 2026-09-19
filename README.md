@@ -2,6 +2,10 @@
 
 将 Google Play 图书高清原始插图匹配并替换到 EPUB，无需安装 ADE 或 Calibre。
 
+## 界面预览
+
+![Play Books EPUB Box 浅色界面](docs/images/GUI.png)
+
 ## 安装与启动
 
 先安装 [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install) 和 Chrome 或 Edge。以下使用独立的 Python 3.12 环境。项目应放在当前用户可写的短路径，例如 `C:\Users\你的用户名\PlayBooks`，避免系统目录及公共同步目录。
