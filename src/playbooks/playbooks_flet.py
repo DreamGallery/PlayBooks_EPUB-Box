@@ -16,7 +16,7 @@ from .paths import SOURCE_DIR
 # Semantic accents follow the active palette, including newly added queue rows.
 ACCENT = ft.Colors.PRIMARY
 APP_NAME = 'Play Books EPUB Box'
-APP_VERSION = '0.1.0'
+APP_VERSION = '0.1.1'
 PROJECT_URL = 'https://github.com/DreamGallery/PlayBooks_EPUB-Box'
 
 
