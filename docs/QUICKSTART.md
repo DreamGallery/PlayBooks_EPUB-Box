@@ -6,10 +6,22 @@ Miniconda 安装及启动见 [README](../README.md)。以下命令均在项目�
 
 1. **ADE 授权**：优先导入已有授权目录；没有授权时再登录，避免重复占用设备额度。账户迁移说明见 ID 旁的帮助按钮。密码不会保存。
 2. **文件与处理**：添加 ACSM 或 EPUB，选择处理模式。卷 ID 通常可自动识别；有歧义时手动填写阅读器地址 `reader?id=...` 中的 ID。
-3. 首次抓图勾选「显示浏览器」并登录拥有该书的 Google 账户；不要同时让其他任务使用同一浏览器配置目录。
+3. 首次抓图点击「输出与处理」中的「登录 Google」，在普通浏览器中手动登录拥有该书的账户，然后关闭这个独立浏览器的所有窗口。「显示抓图浏览器」只控制抓图窗口是否可见，不是登录入口。
 4. 点击开始。取消会保留已下载缓存，并等待当前请求及浏览器清理，可能不会立即结束。
 
 仅准备 EPUB 不需要 Google 登录；本地替换需要选择已下载的原图目录。界面语言与主题切换不会修改书名或书籍内容。
+
+Google 登录也可单独执行：
+
+```sh
+python playbooks_app.py login-google
+```
+
+使用自定义配置时，登录和处理都传入相同的 `--profile "目录"`，并使用同一浏览器（CLI 可指定 `--browser "可执行文件"`）。不要选择日常 Chrome 的用户数据目录，也不要从 macOS 复制登录配置到 Windows。
+
+登录命令不启用远程调试或无头模式，不读取账号密码，也不自动判断登录成功。它等待浏览器退出后结束；取消只停止等待，浏览器需要手动关闭。登录和抓图不能同时使用同一个配置目录。若提示已有调试浏览器，请先取消旧任务并关闭该浏览器再登录。
+
+若普通登录仍提示“不安全”，请先检查 Chrome 更新和正常浏览器登录情况；不要关闭安全检查。Windows 上的实际登录及会话复用仍需实机验证。
 
 ## 常用命令
 
@@ -27,7 +39,7 @@ python playbooks_app.py process --input "书籍.epub" --dry-run
 抓图 CLI 也可分步使用：
 
 ```sh
-python playbooks_hires.py fetch --id "卷ID" --show-browser
+python playbooks_hires.py fetch --id "卷ID"
 python playbooks_hires.py replace --epub "书籍.epub" --images "playbooks_work/卷ID"
 python playbooks_hires.py run --epub "书籍.epub" --id "卷ID"
 ```

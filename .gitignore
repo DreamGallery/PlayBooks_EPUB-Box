@@ -1,5 +1,6 @@
 # Private runtime directories (also match nested copies)
 .chrome-profile*/
+.playbooks-session/
 .playbooks-state*/
 playbooks_work/
 .gui-settings.json

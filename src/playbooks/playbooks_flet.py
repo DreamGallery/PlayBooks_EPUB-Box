@@ -95,7 +95,7 @@ class Workbench:
             ('pace', self.tr('请求间隔 / 秒'), '0.25'),
         ]:
             self.options[key] = ft.TextField(label=label, value=value, text_size=13, expand=True)
-        for key, label in [('show', self.tr('显示 Chrome / Google 登录')), ('keep', self.tr('处理后保留 Chrome')),
+        for key, label in [('show', self.tr('显示抓图浏览器')), ('keep', self.tr('处理后保留 Chrome')),
                            ('dry_run', self.tr('仅预览替换')), ('overwrite', self.tr('允许覆盖已有输出'))]:
             self.options[key] = ft.Checkbox(label=label, value=False)
         self.email = ft.TextField(label=self.tr('ByteBooks ID（邮箱）'), text_size=13, expand=True)
@@ -173,7 +173,11 @@ class Workbench:
                     ft.FilledTonalButton(self.tr('添加电子书'), icon=ft.Icons.ADD_ROUNDED, on_click=self.add_files)]),
                 self.queue,
             ], spacing=14)),
-            self.card(ft.Column([ft.Text(self.tr('输出与处理'), size=16, weight=ft.FontWeight.BOLD),
+            self.card(ft.Column([
+                ft.Row([ft.Text(self.tr('输出与处理'), size=16, weight=ft.FontWeight.BOLD),
+                    ft.Container(expand=True),
+                    ft.TextButton(self.tr('登录 Google'), icon=ft.Icons.LOGIN_ROUNDED, on_click=self.login_google)]),
+                ft.Text(self.tr('首次使用请先登录 Google，关闭登录浏览器后再开始处理。'), size=12),
                 ft.Row([self.options['mode']]), self.folder_field('output'),
                 self.make_settings(),
             ], spacing=14)),
@@ -438,6 +442,17 @@ class Workbench:
     def auth_command(self, command):
         return [cli_python(), '-u', str(ROOT / 'playbooks_app.py'), command, '--state', self.options['state'].value]
 
+    async def login_google(self, e):
+        if self.running:
+            return
+        profile = (self.options['profile'].value or '').strip()
+        if not profile:
+            self.note(self.tr('请先选择独立的 Chrome 配置目录。'))
+            return
+        command = [cli_python(), '-u', str(ROOT / 'playbooks_app.py'), 'login-google', '--profile', profile]
+        if await self.run_jobs([(None, command, None)], log_page=0):
+            self.note(self.tr('浏览器已关闭；登录状态将在处理时检查。'))
+
     async def check_status(self, e):
         await self.run_jobs([(None, self.auth_command('status'), None)], log_page=1)
 
@@ -525,6 +540,7 @@ class Workbench:
             self.stop_button.disabled = True
             self.progress.value = 0
             self.note(self.tr('已取消 · 已下载缓存保留') if self.cancelled else self.tr('结束 · {v0} 个任务失败', v0=failures) if failures else self.tr('全部完成'))
+        return not self.cancelled and failures == 0
 
     def signal_cancel(self):
         if self.cancel_file and self.proc and self.proc.returncode is None:

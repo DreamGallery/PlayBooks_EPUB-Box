@@ -52,7 +52,7 @@ def secure_files(path: Path):
 
 
 @contextlib.contextmanager
-def state_lock(state: Path):
+def state_lock(state: Path, busy_message='Another task is using the ADE authorization; try again later'):
     """OS-owned, nonblocking lock; released automatically on process exit."""
     private_dir(state)
     with (state / '.lock').open('a+b') as lock:
@@ -71,7 +71,7 @@ def state_lock(state: Path):
         try:
             acquire()
         except OSError:
-            raise RuntimeError('Another task is using the ADE authorization; try again later') from None
+            raise RuntimeError(busy_message) from None
         try:
             yield
         finally:

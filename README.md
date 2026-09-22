@@ -19,7 +19,7 @@ pip install -r requirements.txt
 python playbooks_app.py gui
 ```
 
-先在「ADE 授权」导入已有授权或登录授权；首次下载 Google 原图时勾选显示浏览器，完成 Google 登录。后续默认无窗口运行，完成后关闭本工具启动的浏览器。
+先在「ADE 授权」导入已有授权或登录授权。首次下载 Google 原图前，点击「输出与处理」中的「登录 Google」，在不带调试参数的普通浏览器中手动登录，关闭该浏览器的所有窗口后再开始处理。后续抓图默认无窗口运行，完成后关闭本工具启动的浏览器。
 
 ## CLI
 
@@ -27,7 +27,8 @@ python playbooks_app.py gui
 
 ```sh
 python playbooks_app.py status
-python playbooks_app.py process --input "书籍.acsm" --show-browser
+python playbooks_app.py login-google
+python playbooks_app.py process --input "书籍.acsm"
 python playbooks_app.py process --input "书籍.epub" --id "卷ID"
 python playbooks_app.py process --input "书籍.acsm" --prepare-only
 python playbooks_hires.py inspect --epub "书籍.epub"

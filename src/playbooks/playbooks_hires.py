@@ -306,7 +306,7 @@ def compute_hashes(info: ImgInfo, data: bytes, min_side: int = 24) -> None:
         info.hashable = False
 
 
-# 浏览器（Chrome DevTools 协议）——仅用于登录并取得 cookies / 兜底抓取
+# 浏览器（Chrome DevTools 协议）——复用登录状态取得 cookies / 兜底抓取
 class CDPPage:
     def __init__(self, ws_url: str, timeout: float = 180):
         try:
@@ -392,7 +392,7 @@ def _http_json(url: str, method: str = "GET", timeout: float = 5):
 
 
 class BrowserAuth:
-    """启动/连接 Chrome，等待用户登录，导出 cookies；必要时在页面内 fetch 作为兜底。"""
+    """启动/连接抓图浏览器并复用登录状态；必要时在页面内 fetch。"""
 
     def __init__(self, volume_id: str, profile_dir: Path, cdp_url: Optional[str] = None,
                  browser_path: Optional[str] = None, authuser: Optional[str] = None,
@@ -407,10 +407,16 @@ class BrowserAuth:
         self.base = ""
         self.page: Optional[CDPPage] = None
         self.ua = UA_FALLBACK
+        self._profile_context = None
 
     # -- 生命周期 -----------------------------------------------------------
     def open(self) -> None:
         try:
+            if not self.cdp_url:
+                from .browser_login import profile_session
+                guard = profile_session(self.profile_dir)
+                self.profile_dir = guard.__enter__()
+                self._profile_context = guard
             self._open()
         except BaseException:
             # 即使初始化失败或 Ctrl+C，也不能遗留本次启动的进程。
@@ -433,6 +439,14 @@ class BrowserAuth:
             pass
 
     def close(self, quit_browser: bool = True) -> None:
+        try:
+            self._close(quit_browser)
+        finally:
+            if self._profile_context is not None:
+                guard, self._profile_context = self._profile_context, None
+                guard.__exit__(None, None, None)
+
+    def _close(self, quit_browser: bool = True) -> None:
         # proc 只代表本次启动的 Chrome；复用/--cdp 连接没有所有权。
         owned = quit_browser and self.proc is not None and self.proc.poll() is None
         if owned and self.page:
@@ -482,7 +496,6 @@ class BrowserAuth:
         # 上方已经确认旧端口不可用，删除过期发现文件，不触碰用户数据。
         if dtap.exists():
             dtap.unlink()
-        login = "https://accounts.google.com/ServiceLogin?continue=" + quote(self.reader_url, safe="")
         args = [
             exe,
             f"--user-data-dir={self.profile_dir.resolve()}",
@@ -490,7 +503,7 @@ class BrowserAuth:
             "--no-first-run",
             "--no-default-browser-check",
             "--window-size=1280,900",
-            login,
+            self.reader_url,
         ]
         if self.headless:
             args.insert(1, "--headless=new")
@@ -684,15 +697,15 @@ def wait_for_access(client: PlayBooksClient, volume_id: str, authuser: Optional[
         except Exception as e:
             last_err = str(e)
         if not interactive:
-            hint = ("Headless mode cannot sign in interactively. Use --show-browser; if already signed in, verify that the account owns this book."
+            hint = ("Run playbooks_app.py login-google with the same --profile, sign in manually and close that browser before retrying. If already signed in, verify that the account owns this book."
                     if client.browser else "Verify that the cookies belong to the account owning this book (or use --allow-partial).")
             raise RuntimeError(f"Cannot access full content: {last_err}. {hint}")
         if not hinted:
-            log("┃ Sign in to the Google account owning this book in Chrome; the session will be reused.")
-            log("┃ Processing resumes automatically after sign-in.")
+            log("┃ Waiting for full book access. If sign-in is required, cancel this task and close its browser first.")
+            log("┃ Then run playbooks_app.py login-google with the same --profile, sign in manually, close the login browser and retry.")
             hinted = True
         if time.time() - t0 > timeout:
-            raise RuntimeError(f"Sign-in timed out: {last_err}")
+            raise RuntimeError(f"Book access check timed out: {last_err}")
         time.sleep(3)
 
 
@@ -1438,7 +1451,7 @@ def add_fetch_args(p: argparse.ArgumentParser, need_id: bool) -> None:
     p.add_argument("--limit", type=int, default=0, help="最多下载多少张插图（0 = 全部，测试用）")
     p.add_argument("--no-cover", action="store_true", help="不额外下载商店封面")
     view = p.add_mutually_exclusive_group()
-    view.add_argument("--show-browser", dest="headless", action="store_false", help="显示 Chrome 窗口，用于首次登录或登录失效")
+    view.add_argument("--show-browser", dest="headless", action="store_false", help="显示抓图窗口；首次登录请使用 playbooks_app.py login-google")
     view.add_argument("--headless", dest="headless", action="store_true", help="无窗口启动 Chrome（默认）")
     lifecycle = p.add_mutually_exclusive_group()
     lifecycle.add_argument("--quit-browser", dest="quit_browser", action="store_true", help="抓取完成自动关闭本次启动的 Chrome（默认；不关闭复用或 --cdp 连接的进程）")

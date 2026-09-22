@@ -119,6 +119,9 @@ def make_parser():
     sub = parser.add_subparsers(dest='command', required=True)
     sub.add_parser('gui', help='打开桌面界面')
     sub.add_parser('gui-flet', help='gui 的兼容别名')
+    login = sub.add_parser('login-google', help='打开普通浏览器手动登录 Google，关闭窗口后再处理书籍')
+    login.add_argument('--profile', type=Path, default=ROOT / '.chrome-profile')
+    login.add_argument('--browser', help='Chrome / Edge 可执行文件路径')
     status = sub.add_parser('status', help='检查依赖和授权状态，不联网')
     auth = sub.add_parser('authorize', help='在本机输入 Adobe ID 并授权；会注册一个设备')
     auth.add_argument('--stdin-json', action='store_true', help=argparse.SUPPRESS)
@@ -159,6 +162,9 @@ def main(argv=None):
         if args.command in ('gui', 'gui-flet'):
             from .playbooks_flet import main as gui
             gui()
+        elif args.command == 'login-google':
+            from .browser_login import login_google
+            login_google(args.profile, args.browser)
         elif args.command == 'status':
             import importlib.util
             for module in ('PIL', 'requests', 'cryptography', 'websocket', 'lxml', 'Crypto', 'flet'):

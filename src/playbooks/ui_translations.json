@@ -69,10 +69,30 @@
     "en": "Request interval / s",
     "ja": "リクエスト間隔 / 秒"
   },
-  "显示 Chrome / Google 登录": {
-    "zh_TW": "顯示 Chrome / Google 登入",
-    "en": "Show Chrome / Google sign-in",
-    "ja": "Chrome 表示 / Google ログイン"
+  "显示抓图浏览器": {
+    "zh_TW": "顯示抓圖瀏覽器",
+    "en": "Show download browser",
+    "ja": "画像取得ブラウザーを表示"
+  },
+  "登录 Google": {
+    "zh_TW": "登入 Google",
+    "en": "Sign in to Google",
+    "ja": "Google にログイン"
+  },
+  "首次使用请先登录 Google，关闭登录浏览器后再开始处理。": {
+    "zh_TW": "首次使用請先登入 Google，關閉登入瀏覽器後再開始處理。",
+    "en": "Sign in to Google first, then close the login browser before processing.",
+    "ja": "初回は Google にログインし、ログイン用ブラウザーを閉じてから処理を開始してください。"
+  },
+  "请先选择独立的 Chrome 配置目录。": {
+    "zh_TW": "請先選擇獨立的 Chrome 設定目錄。",
+    "en": "Choose a dedicated Chrome profile folder first.",
+    "ja": "専用の Chrome プロファイルフォルダーを選択してください。"
+  },
+  "浏览器已关闭；登录状态将在处理时检查。": {
+    "zh_TW": "瀏覽器已關閉；登入狀態將在處理時檢查。",
+    "en": "Browser closed; sign-in will be checked during processing.",
+    "ja": "ブラウザーを閉じました。ログイン状態は処理時に確認します。"
   },
   "处理后保留 Chrome": {
     "zh_TW": "處理後保留 Chrome",
