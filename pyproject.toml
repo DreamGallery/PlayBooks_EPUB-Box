@@ -1,6 +1,6 @@
 [project]
 name = "playbooks-epub-box"
-version = "0.1.1"
+version = "0.2.0"
 description = "将 Google Play 图书高清原始插图匹配并替换到 EPUB，无需安装 ADE 或 Calibre。"
 readme = "README.md"
 requires-python = ">=3.12"

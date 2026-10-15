@@ -1,4 +1,4 @@
-"""Explicit UI strings; book metadata and English process logs are never translated."""
+"""Explicit UI strings; metadata stays untouched and logs use their own templates."""
 from dataclasses import fields, is_dataclass
 from pathlib import Path
 import json

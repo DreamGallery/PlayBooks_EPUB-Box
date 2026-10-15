@@ -3,7 +3,7 @@ from pathlib import Path
 from .runtime import cli_python
 
 from .paths import ROOT
-MODES = ('全流程：ACSM / EPUB → 高清 EPUB', '只准备 EPUB：兑换 / 解密',
+MODES = ('全流程：ACSM / EPUB → 高清 EPUB', '只获取 EPUB：兑换 / 解密',
          '只下载 Google 原图', '只用本地原图替换', '检查 EPUB 插图')
 
 

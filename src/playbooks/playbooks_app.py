@@ -77,13 +77,14 @@ def _process(args) -> Path:
         else:
             if not vid:
                 from .volume_lookup import resolve_volume_id
-                vid = resolve_volume_id(info.opf_xml, args.work.resolve())
+                vid = resolve_volume_id(info.opf_xml, args.work.resolve(),
+                                        library=state / 'library' / 'catalog.json')
             print('[3/4] Downloading Google Play originals', flush=True)
             mode = 'cookies' if args.cookies else 'browser'
             images = hires.do_fetch(vid, args.work.resolve() / vid, mode,
                                     args.profile.resolve(), args.cdp, args.browser, args.cookies,
                                     args.authuser, False, 900, args.pace, 0,
-                                    not args.keep_browser, True, not args.show_browser)
+                                    not args.keep_browser, headless=not args.show_browser)
         output = output_path(source, info.title, images, args.out, args.output_dir)
         check_output(output)
         print('Output file: ' + str(output), flush=True)
@@ -119,9 +120,23 @@ def make_parser():
     sub = parser.add_subparsers(dest='command', required=True)
     sub.add_parser('gui', help='打开桌面界面')
     sub.add_parser('gui-flet', help='gui 的兼容别名')
-    login = sub.add_parser('login-google', help='打开普通浏览器手动登录 Google，关闭窗口后再处理书籍')
+    login = sub.add_parser('login-google', help='登录后后台刷新书库；有图书才完成，失败自动重开专用登录窗口')
     login.add_argument('--profile', type=Path, default=ROOT / '.chrome-profile')
+    login.add_argument('--state', type=Path, default=DEFAULT_STATE)
     login.add_argument('--browser', help='Chrome / Edge 可执行文件路径')
+    logout = sub.add_parser('logout-google', help='退出工具独立浏览器中的 Google 登录')
+    logout.add_argument('--profile', type=Path, default=ROOT / '.chrome-profile')
+    logout.add_argument('--state', type=Path, default=DEFAULT_STATE)
+    logout.add_argument('--browser')
+    library = sub.add_parser('library-refresh', help='读取 Google 书库，按书名分组保存本地目录')
+    export = sub.add_parser('library-export', help='通过官方菜单导出书库中的 EPUB / ACSM')
+    for p in (library, export):
+        p.add_argument('--profile', type=Path, default=ROOT / '.chrome-profile')
+        p.add_argument('--state', type=Path, default=DEFAULT_STATE)
+        p.add_argument('--browser')
+        p.add_argument('--show-browser', action='store_true')
+    export.add_argument('--id', dest='ids', nargs='+', required=True)
+    export.add_argument('--result', type=Path)
     status = sub.add_parser('status', help='检查依赖和授权状态，不联网')
     auth = sub.add_parser('authorize', help='在本机输入 Adobe ID 并授权；会注册一个设备')
     auth.add_argument('--stdin-json', action='store_true', help=argparse.SUPPRESS)
@@ -164,7 +179,21 @@ def main(argv=None):
             gui()
         elif args.command == 'login-google':
             from .browser_login import login_google
-            login_google(args.profile, args.browser)
+            login_google(args.profile, args.browser, args.state)
+        elif args.command == 'logout-google':
+            from .google_library import logout_google
+            with adobe.state_lock(args.state.expanduser().resolve() / 'pipeline'):
+                logout_google(args.profile, args.state, args.browser)
+        elif args.command in ('library-refresh', 'library-export'):
+            from .google_library import refresh_library, export_books
+            state = args.state.expanduser().resolve()
+            with adobe.state_lock(state / 'pipeline'):
+                if args.command == 'library-refresh':
+                    refresh_library(args.profile, state, args.browser, not args.show_browser)
+                else:
+                    export_books(args.ids, args.profile, state,
+                        args.result or state / 'library' / 'export-result.json',
+                        args.browser, not args.show_browser)
         elif args.command == 'status':
             import importlib.util
             for module in ('PIL', 'requests', 'cryptography', 'websocket', 'lxml', 'Crypto', 'flet'):

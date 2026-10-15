@@ -79,10 +79,10 @@
     "en": "Sign in to Google",
     "ja": "Google にログイン"
   },
-  "首次使用请先登录 Google，关闭登录浏览器后再开始处理。": {
-    "zh_TW": "首次使用請先登入 Google，關閉登入瀏覽器後再開始處理。",
-    "en": "Sign in to Google first, then close the login browser before processing.",
-    "ja": "初回は Google にログインし、ログイン用ブラウザーを閉じてから処理を開始してください。"
+  "首次使用请先登录 Google，完成后关闭浏览器。": {
+    "zh_TW": "首次使用請先登入 Google，完成後關閉瀏覽器。",
+    "en": "Before first use, sign in to Google, then close the browser.",
+    "ja": "初回は Google にログインし、完了後にブラウザーを閉じてください。"
   },
   "请先选择独立的 Chrome 配置目录。": {
     "zh_TW": "請先選擇獨立的 Chrome 設定目錄。",
@@ -124,11 +124,6 @@
     "en": "Wait for the current task before clearing the cache.",
     "ja": "処理が終了してからキャッシュを削除してください。"
   },
-  "正在将图源缓存移入废纸篓…": {
-    "zh_TW": "正在將圖源快取移至垃圾桶…",
-    "en": "Moving image cache to the trash…",
-    "ja": "画像キャッシュをゴミ箱へ移動中…"
-  },
   "请先添加 ACSM 或 EPUB 文件。": {
     "zh_TW": "請先新增 ACSM 或 EPUB 檔案。",
     "en": "Add an ACSM or EPUB file first.",
@@ -139,15 +134,15 @@
     "en": "Enter your ByteBooks email and password.",
     "ja": "ByteBooks のメールアドレスとパスワードを入力してください。"
   },
-  "处理方式": {
-    "zh_TW": "處理方式",
-    "en": "Processing mode",
-    "ja": "処理モード"
+  "任务类型": {
+    "zh_TW": "任務類型",
+    "en": "Task type",
+    "ja": "タスクの種類"
   },
-  "文件与处理": {
-    "zh_TW": "檔案與處理",
-    "en": "Files & processing",
-    "ja": "ファイルと処理"
+  "电子书": {
+    "zh_TW": "電子書",
+    "en": "Books",
+    "ja": "電子書籍"
   },
   "ADE 授权": {
     "zh_TW": "ADE 授權",
@@ -159,13 +154,13 @@
     "en": "About",
     "ja": "このアプリについて"
   },
-  "处理设置": {
-    "zh_TW": "處理設定",
-    "en": "Processing settings",
-    "ja": "処理設定"
+  "设置": {
+    "zh_TW": "設定",
+    "en": "Settings",
+    "ja": "設定"
   },
-  "无法安全识别缓存，请检查抓图缓存目录和权限。": {
-    "zh_TW": "無法安全識別快取，請檢查圖片快取目錄與權限。",
+  "无法安全识别缓存，请检查目录和权限。": {
+    "zh_TW": "無法安全識別快取，請檢查目錄與權限。",
     "en": "Cannot safely identify the cache. Check the folder and permissions.",
     "ja": "キャッシュを安全に識別できません。フォルダーと権限を確認してください。"
   },
@@ -234,10 +229,10 @@
     "en": "Choose folder",
     "ja": "フォルダーを選択"
   },
-  "已有授权可直接导入；Google 登录在处理设置中管理。": {
-    "zh_TW": "既有授權可直接匯入；Google 登入於處理設定管理。",
-    "en": "Import an existing authorization; manage Google sign-in in processing settings.",
-    "ja": "既存の認証をインポートできます。Google ログインは処理設定で管理します。"
+  "导入已有授权，或使用 ByteBooks ID 登录。": {
+    "zh_TW": "匯入既有授權，或使用 ByteBooks ID 登入。",
+    "en": "Import an existing authorization or sign in with your ByteBooks ID.",
+    "ja": "既存の認証をインポートするか、ByteBooks ID でログインしてください。"
   },
   "登录会注册设备。密码不保存，授权文件请勿分享。": {
     "zh_TW": "登入會註冊裝置。密碼不儲存，請勿分享授權檔案。",
@@ -249,20 +244,20 @@
     "en": "Sign in & authorize",
     "ja": "ログインして認証"
   },
-  "清除本地图源缓存？": {
-    "zh_TW": "清除本機圖源快取？",
-    "en": "Clear local image cache?",
-    "ja": "ローカル画像キャッシュを削除しますか？"
+  "清除缓存？": {
+    "zh_TW": "清除快取？",
+    "en": "Clear caches?",
+    "ja": "キャッシュを削除しますか？"
   },
   "关于 Play Books EPUB Box": {
     "zh_TW": "關於 Play Books EPUB Box",
     "en": "About Play Books EPUB Box",
     "ja": "Play Books EPUB Box について"
   },
-  "准备 ACSM / EPUB，获取 Google Play 图书原图并替换低清插图。支持桌面界面与命令行使用。": {
-    "zh_TW": "準備 ACSM / EPUB，取得 Google Play 圖書原圖並替換低清插圖。支援桌面介面與命令列。",
-    "en": "Prepare ACSM / EPUB files and replace low-resolution illustrations with original Google Play Books images. Includes desktop and command-line interfaces.",
-    "ja": "ACSM / EPUB を準備し、低解像度の挿絵を Google Play ブックスの原画像に置換します。デスクトップとコマンドラインに対応。"
+  "导入 ACSM 或 EPUB，用 Google Play 图书原图替换低清插图。支持图形界面与命令行。": {
+    "zh_TW": "匯入 ACSM 或 EPUB，以 Google Play 圖書原圖替換低解析度插圖。支援圖形介面與命令列。",
+    "en": "Import ACSM or EPUB files and replace low-resolution illustrations with original Google Play Books images. Includes a GUI and CLI.",
+    "ja": "ACSM または EPUB を読み込み、低解像度の挿絵を Google Play ブックスの原画像に置換します。GUI とコマンドラインに対応。"
   },
   "开源致谢": {
     "zh_TW": "開源致謝",
@@ -279,10 +274,10 @@
     "en": "ACSM fulfillment and ADE authorization implementations.",
     "ja": "ACSM の取得と ADE 認証の実装。"
   },
-  "提供 Adobe ADEPT EPUB 处理相关实现。": {
-    "zh_TW": "提供 Adobe ADEPT EPUB 處理相關實作。",
-    "en": "Adobe ADEPT EPUB processing implementations.",
-    "ja": "Adobe ADEPT EPUB 処理の実装。"
+  "提供 Adobe ADEPT EPUB 解密实现。": {
+    "zh_TW": "提供 Adobe ADEPT EPUB 解密實作。",
+    "en": "Adobe ADEPT EPUB decryption implementation.",
+    "ja": "Adobe ADEPT EPUB 復号の実装。"
   },
   "第三方代码保留原版权与许可证；版本和本地修改详见项目 docs/THIRD_PARTY.md。": {
     "zh_TW": "第三方程式碼保留原版權與授權條款；版本與本機修改詳見 docs/THIRD_PARTY.md。",
@@ -359,15 +354,15 @@
     "en": "Clear",
     "ja": "消去"
   },
-  "输出与处理": {
-    "zh_TW": "輸出與處理",
-    "en": "Output & processing",
-    "ja": "出力と処理"
+  "输出选项": {
+    "zh_TW": "輸出選項",
+    "en": "Output options",
+    "ja": "出力オプション"
   },
-  "清除本地图源缓存": {
-    "zh_TW": "清除本機圖源快取",
-    "en": "Clear local image cache",
-    "ja": "ローカル画像キャッシュを削除"
+  "清除缓存": {
+    "zh_TW": "清除快取",
+    "en": "Clear caches",
+    "ja": "キャッシュを削除"
   },
   "检查授权与依赖": {
     "zh_TW": "檢查授權與相依套件",
@@ -419,15 +414,15 @@
     "en": "Add books",
     "ja": "電子書籍を追加"
   },
-  "包含下载原图、章节和匹配索引；移入系统废纸篓，可恢复。再次使用时需重新下载，自动卷 ID 查找也可能需要联网。": {
-    "zh_TW": "包含下載原圖、章節及比對索引；移至系統垃圾桶，可還原。再次使用需重新下載，自動卷 ID 查找也可能需要連線。",
-    "en": "Includes original images, chapters and matching indexes. Moves to the system trash for recovery. Reuse requires downloading again; automatic volume lookup may need a network connection.",
-    "ja": "原画像、章データ、照合インデックスをゴミ箱へ移動します。復元可能です。再利用には再ダウンロードが必要で、書籍 ID の自動検索にも通信が必要になる場合があります。"
+  "下载原图、匹配索引及下载／准备的电子书缓存将移入废纸篓，可恢复；再次使用可能需要重新下载。": {
+    "zh_TW": "下載原圖、比對索引及下載／準備的電子書快取將移至垃圾桶，可還原；再次使用可能需要重新下載。",
+    "en": "Move downloaded images, matching indexes and downloaded/prepared ebook caches to Trash. They can be restored; reuse may require downloading again.",
+    "ja": "ダウンロード済み原画像、照合インデックス、取得・準備済み電子書籍キャッシュをゴミ箱へ移します。復元可能ですが、再利用時に再ダウンロードが必要な場合があります。"
   },
-  "不会清除 Chrome 登录、ADE 授权、ACSM 准备缓存或输出 EPUB。请先停止其他窗口和 CLI 中的抓图任务。": {
-    "zh_TW": "不會清除 Chrome 登入、ADE 授權、ACSM 準備快取或輸出 EPUB。請先停止其他視窗與 CLI 的圖片下載任務。",
-    "en": "Chrome sign-in, ADE authorization, ACSM preparation cache and output EPUBs are not removed. Stop downloads in other windows and CLI sessions first.",
-    "ja": "Chrome ログイン、ADE 認証、ACSM 準備キャッシュ、出力 EPUB は削除しません。他のウィンドウや CLI での画像取得を先に停止してください。"
+  "保留 Chrome 登录、ADE 授权、本地原图、队列源文件和输出 EPUB。请先停止其他窗口或 CLI 中的任务。": {
+    "zh_TW": "保留 Chrome 登入、ADE 授權、本機原圖、佇列來源檔和輸出 EPUB。請先停止其他視窗或 CLI 中的任務。",
+    "en": "Keep Chrome sign-in, ADE authorization, local original images, queued source files and output EPUBs. Stop tasks in other windows or CLI sessions first.",
+    "ja": "Chrome ログイン、ADE 認証、ローカル原画像、待機中の入力ファイル、出力 EPUB は保持します。他のウィンドウや CLI の処理を先に停止してください。"
   },
   "ADE 的新登录已由 Adobe ID 改为 ByteBooks ID。ByteBooks 由 Wipro 运营，官网为 dtsbytebooks.com。": {
     "zh_TW": "ADE 的新登入已由 Adobe ID 改為 ByteBooks ID。ByteBooks 由 Wipro 營運，官網為 dtsbytebooks.com。",
@@ -479,15 +474,15 @@
     "en": "{v0} books",
     "ja": "{v0} 冊"
   },
-  "没有可清除的图源缓存（跳过 {v0} 个未识别或受保护项目）。": {
-    "zh_TW": "沒有可清除的圖源快取（略過 {v0} 個未識別或受保護項目）。",
-    "en": "No removable image cache ({v0} unknown or protected items skipped).",
-    "ja": "削除可能な画像キャッシュはありません（不明または保護対象の {v0} 項目をスキップ）。"
+  "没有可清除的缓存（跳过 {v0} 个未识别或受保护项目）。": {
+    "zh_TW": "沒有可清除的快取（略過 {v0} 個未識別或受保護項目）。",
+    "en": "No removable caches ({v0} unknown or protected items skipped).",
+    "ja": "削除可能なキャッシュはありません（不明または保護対象の {v0} 項目をスキップ）。"
   },
-  "已识别 {v0} 本书的缓存，共 {v1:.1f} MB；另有 {v2} 个项目将跳过。": {
-    "zh_TW": "已識別 {v0} 本書的快取，共 {v1:.1f} MB；另有 {v2} 個項目將略過。",
-    "en": "Found cache for {v0} books, {v1:.1f} MB; {v2} other items will be skipped.",
-    "ja": "{v0} 冊分、{v1:.1f} MB のキャッシュを検出。その他 {v2} 項目はスキップします。"
+  "图源缓存 {v0} 项，工作缓存 {v1} 项；共 {v2:.1f} MB，跳过 {v3} 项。": {
+    "zh_TW": "圖源快取 {v0} 項，工作快取 {v1} 項；共 {v2:.1f} MB，略過 {v3} 項。",
+    "en": "{v0} image caches and {v1} working caches; {v2:.1f} MB total, {v3} items skipped.",
+    "ja": "画像キャッシュ {v0} 件、作業キャッシュ {v1} 件、合計 {v2:.1f} MB。{v3} 項目はスキップします。"
   },
   "结束 · {v0} 个任务失败": {
     "zh_TW": "結束 · {v0} 個任務失敗",
@@ -499,10 +494,10 @@
     "en": "Full pipeline: ACSM / EPUB → high-res EPUB",
     "ja": "一括処理：ACSM / EPUB → 高解像度 EPUB"
   },
-  "只准备 EPUB：兑换 / 解密": {
-    "zh_TW": "僅準備 EPUB：兌換 / 解密",
-    "en": "Prepare EPUB only: fulfill / decrypt",
-    "ja": "EPUB の準備のみ：取得 / 復号"
+  "只获取 EPUB：兑换 / 解密": {
+    "zh_TW": "僅取得 EPUB：兌換 / 解密",
+    "en": "Get EPUB only: fulfill / decrypt",
+    "ja": "EPUB の取得のみ：ダウンロード / 復号"
   },
   "只下载 Google 原图": {
     "zh_TW": "僅下載 Google 原圖",
@@ -514,6 +509,36 @@
     "en": "Replace with local originals only",
     "ja": "ローカル原画像で置換のみ"
   },
+  "任务处理": {"zh_TW": "任務處理", "en": "Processing", "ja": "タスク処理"},
+  "退出登录": {"zh_TW": "登出", "en": "Sign out", "ja": "ログアウト"},
+  "退出 Google 登录？": {"zh_TW": "登出 Google？", "en": "Sign out of Google?", "ja": "Google からログアウトしますか？"},
+  "清除本工具独立浏览器的登录 Cookie；不会影响日常 Chrome、ADE 授权或电子书文件。": {"zh_TW": "清除本工具獨立瀏覽器的登入 Cookie；不影響日常 Chrome、ADE 授權或電子書檔案。", "en": "Clear sign-in cookies in this tool's dedicated browser. Your everyday Chrome, ADE authorization and ebooks are unchanged.", "ja": "本ツール専用ブラウザーのログイン Cookie を削除します。通常の Chrome、ADE 認証、電子書籍には影響しません。"},
+  "清除 Google 登录凭据": {"zh_TW": "清除 Google 登入憑證", "en": "Clear Google sign-in data", "ja": "Google ログイン情報を削除"},
+  "清除 Google 登录凭据？": {"zh_TW": "清除 Google 登入憑證？", "en": "Clear Google sign-in data?", "ja": "Google ログイン情報を削除しますか？"},
+  "请先关闭本工具的 Chrome。独立配置中的 Cookie、已保存密码和网站数据将移入废纸篓，需要重新登录；不会清除 ADE 授权或电子书。": {"zh_TW": "請先關閉本工具的 Chrome。獨立設定中的 Cookie、已儲存密碼與網站資料將移至垃圾桶，需要重新登入；不會清除 ADE 授權或電子書。", "en": "Close this tool's Chrome first. Cookies, saved passwords and site data in its dedicated profile will move to Trash. Sign in again afterward. ADE authorization and ebooks are kept.", "ja": "本ツールの Chrome を閉じてください。専用プロファイルの Cookie、保存済みパスワード、サイトデータをゴミ箱へ移します。再ログインが必要です。ADE 認証と電子書籍は保持します。"},
+  "移入废纸篓后仍可恢复；如需彻底删除凭据，请自行清空对应项目。": {"zh_TW": "移至垃圾桶後仍可還原；若需永久刪除憑證，請自行清空對應項目。", "en": "Items in Trash remain recoverable. To permanently erase credentials, empty those items yourself.", "ja": "ゴミ箱から復元できます。認証情報を完全に消去する場合は、該当項目をご自身で削除してください。"},
+  "清理中…": {"zh_TW": "清理中…", "en": "Cleaning up…", "ja": "削除中…"},
+  "清理完成": {"zh_TW": "清理完成", "en": "Cleanup complete", "ja": "削除完了"},
+  "清理未完成，请检查日志。": {"zh_TW": "清理未完成，請檢查日誌。", "en": "Cleanup incomplete; check the log.", "ja": "削除未完了。ログを確認してください。"},
+  "Play 书库": {"zh_TW": "Play 書庫", "en": "Play library", "ja": "Play ライブラリ"},
+  "搜索书名或系列": {"zh_TW": "搜尋書名或系列", "en": "Search books or series", "ja": "書名・シリーズを検索"},
+  "已选择 {v0} 本": {"zh_TW": "已選擇 {v0} 本", "en": "{v0} selected", "ja": "{v0} 冊を選択"},
+  "刷新书库": {"zh_TW": "重新整理書庫", "en": "Refresh library", "ja": "ライブラリを更新"},
+  "添加所选图书": {"zh_TW": "新增所選圖書", "en": "Add selected books", "ja": "選択した書籍を追加"},
+  "无法自动导出时，请选择本地 ACSM / EPUB。": {"zh_TW": "無法自動匯出時，請選擇本機 ACSM / EPUB。", "en": "If automatic export is unavailable, select a local ACSM / EPUB.", "ja": "自動エクスポートできない場合は、ローカルの ACSM / EPUB を選択してください。"},
+  "正在读取书库…": {"zh_TW": "正在讀取書庫…", "en": "Loading library…", "ja": "ライブラリを読み込み中…"},
+  "放大书库": {"zh_TW": "放大書庫", "en": "Expand library", "ja": "ライブラリを拡大"},
+  "恢复布局": {"zh_TW": "恢復版面", "en": "Restore layout", "ja": "元のレイアウトに戻す"},
+  "未分系列": {"zh_TW": "未分系列", "en": "Other books", "ja": "その他の書籍"},
+  "请登录 Google 后刷新书库。": {"zh_TW": "請登入 Google 後重新整理書庫。", "en": "Sign in to Google, then refresh the library.", "ja": "Google にログイン後、ライブラリを更新してください。"},
+  "没有匹配的图书。": {"zh_TW": "沒有符合的圖書。", "en": "No matching books.", "ja": "一致する書籍はありません。"},
+  "无法读取书库，请刷新重试。": {"zh_TW": "無法讀取書庫，請重新整理再試。", "en": "Cannot read the library. Refresh and retry.", "ja": "ライブラリを読み込めません。再度更新してください。"},
+  "需本地文件": {"zh_TW": "需本機檔案", "en": "Needs file", "ja": "ファイル待ち"},
+  "请选择尚未加入任务的图书。": {"zh_TW": "請選擇尚未加入任務的圖書。", "en": "Select books not already in the queue.", "ja": "タスクに未追加の書籍を選択してください。"},
+  "部分图书未能导出，请关联本地 ACSM / EPUB。": {"zh_TW": "部分圖書無法匯出，請關聯本機 ACSM / EPUB。", "en": "Some exports were unavailable. Attach local ACSM / EPUB files.", "ja": "一部の書籍をエクスポートできません。ローカル ACSM / EPUB を指定してください。"},
+  "请选择对应的 ACSM / EPUB": {"zh_TW": "請選擇對應的 ACSM / EPUB", "en": "Select the matching ACSM / EPUB", "ja": "対応する ACSM / EPUB を指定"},
+  "关联本地文件": {"zh_TW": "關聯本機檔案", "en": "Attach local file", "ja": "ローカルファイルを指定"},
+  "请先为待处理图书关联本地文件。": {"zh_TW": "請先為待處理圖書關聯本機檔案。", "en": "Attach local files for the pending books first.", "ja": "処理待ち書籍のローカルファイルを指定してください。"},
   "检查 EPUB 插图": {
     "zh_TW": "檢查 EPUB 插圖",
     "en": "Inspect EPUB illustrations",

@@ -866,27 +866,36 @@ def fetch_css_text(client: PlayBooksClient, url: str, key: Optional[bytes], auth
     return text
 
 
-def fetch_frontcover(client: PlayBooksClient, volume_id: str) -> Optional[Tuple[bytes, str, int, int, str]]:
-    """商店封面（尽力而为，可能不存在或分辩率低于 EPUB 内封面）。"""
-    for u in (
-        f"https://books.google.com/books/publisher/content/images/frontcover/{volume_id}?fife=w10000-h10000",
-        f"https://books.google.com/books/content?id={volume_id}&printsec=frontcover&img=1&zoom=0",
-    ):
-        try:
-            st, ct, data = client.get(u, IMG_ACCEPT)
-            info = sniff_image(data) if st == 200 else None
-            if info and min(info[1], info[2]) >= 200:
-                return data, info[0], info[1], info[2], u
-        except Exception:
-            continue
-    return None
+def cached_segment(client, link, key, authuser, cache):
+    def validate(obj):
+        if not isinstance(obj, dict) or not isinstance(obj.get('content', ''), str):
+            raise ValueError('Invalid chapter data')
+        return obj
+
+    try:
+        return validate(json.loads(cache.read_text(encoding='utf-8')))
+    except (OSError, ValueError):
+        pass
+    obj = validate(fetch_segment_json(client, link, key, authuser))
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    tmp = None
+    try:
+        with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', prefix=cache.name + '.',
+                                         suffix='.tmp', dir=cache.parent, delete=False) as stream:
+            tmp = Path(stream.name)
+            json.dump(obj, stream, ensure_ascii=False)
+        tmp.replace(cache)
+    finally:
+        if tmp is not None:
+            tmp.unlink(missing_ok=True)
+    return obj
 
 
 # fetch：抓取高清插图
 def do_fetch(volume_id: str, workdir: Path, mode: str, profile_dir: Path, cdp_url: Optional[str],
              browser_path: Optional[str], cookies_file: Optional[Path], authuser: Optional[str],
              allow_partial: bool, login_timeout: float, pace: float, limit: int, quit_browser: bool,
-             with_cover: bool = True, headless: bool = True) -> Path:
+             headless: bool = True) -> Path:
     if not re.fullmatch(r'[A-Za-z0-9_-]{12}', volume_id):
         raise ValueError('Invalid Google volume ID; expected 12 letters, digits, underscores or hyphens')
     if not math.isfinite(pace) or pace < 0 or not math.isfinite(login_timeout) or login_timeout <= 0 or limit < 0:
@@ -948,11 +957,7 @@ def do_fetch(volume_id: str, workdir: Path, mode: str, profile_dir: Path, cdp_ur
             cache = seg_dir / "svg-original-v1" / (safe_name(label) + ".json")
             cache.parent.mkdir(exist_ok=True)
             try:
-                if cache.exists():
-                    obj = json.loads(cache.read_text(encoding="utf-8"))
-                else:
-                    obj = fetch_segment_json(client, link, key, authuser)
-                    cache.write_text(json.dumps(obj, ensure_ascii=False), encoding="utf-8")
+                obj = cached_segment(client, link, key, authuser, cache)
             except Exception as e:
                 warn(f"Chapter {label} download/decryption failed: {e}")
                 continue
@@ -1011,16 +1016,6 @@ def do_fetch(volume_id: str, workdir: Path, mode: str, profile_dir: Path, cdp_ur
                             "src_url": ref.url, "fetched_url": used, "cached": False,
                             "kind": "resource"})
             log(f"  [{n}/{len(items)}] {rid:<40} {w}x{h} {fmt} {len(data) / 1024:.0f}KB")
-
-        if with_cover:
-            cover = fetch_frontcover(client, volume_id)
-            if cover:
-                data, fmt, w, h, used = cover
-                fn = f"__frontcover__.{FMT_EXT.get(fmt, 'bin')}"
-                (img_dir / fn).write_bytes(data)
-                results.append({"id": "__frontcover__", "file": fn, "format": fmt, "width": w, "height": h, "bytes": len(data),
-                                "segment": "", "seg_index": -1, "alt": "cover", "src_url": used, "fetched_url": used, "cached": False})
-                log(f"  Store cover {w}x{h} {fmt}")
 
         out = {
             "volume_id": volume_id,
@@ -1184,6 +1179,9 @@ def load_pb_images(images_dir: Path) -> Tuple[List[ImgInfo], dict]:
     out: List[ImgInfo] = []
     n = max(len(entries), 1)
     for i, e in enumerate(entries):
+        # Ignore the optional store cover left by older caches, not EPUB covers.
+        if e.get('id') == '__frontcover__' or Path(e['file']).stem == '__frontcover__':
+            continue
         # 兼容旧工作目录，但禁止裁切页再次参与替换。
         if (e.get("kind") == "page" or str(e.get("id", "")).startswith("__page__")
                 or str(e.get("file", "")).startswith("page__")):
@@ -1449,7 +1447,7 @@ def add_fetch_args(p: argparse.ArgumentParser, need_id: bool) -> None:
     p.add_argument("--login-timeout", type=float, default=900, help="等待登录的秒数（默认 900）")
     p.add_argument("--pace", type=float, default=0.25, help="请求间隔秒数（默认 0.25）")
     p.add_argument("--limit", type=int, default=0, help="最多下载多少张插图（0 = 全部，测试用）")
-    p.add_argument("--no-cover", action="store_true", help="不额外下载商店封面")
+    p.add_argument("--no-cover", action="store_true", help=argparse.SUPPRESS)
     view = p.add_mutually_exclusive_group()
     view.add_argument("--show-browser", dest="headless", action="store_false", help="显示抓图窗口；首次登录请使用 playbooks_app.py login-google")
     view.add_argument("--headless", dest="headless", action="store_true", help="无窗口启动 Chrome（默认）")
@@ -1503,7 +1501,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             do_inspect(args.epub)
         elif args.cmd == "fetch":
             do_fetch(args.id, Path(args.work) / args.id, fetch_mode(args), args.profile, args.cdp, args.browser, args.cookies,
-                     args.authuser, args.allow_partial, args.login_timeout, args.pace, args.limit, args.quit_browser, not args.no_cover, args.headless)
+                     args.authuser, args.allow_partial, args.login_timeout, args.pace, args.limit, args.quit_browser, headless=args.headless)
         elif args.cmd == "replace":
             do_replace(args.epub, args.images, args.out, args.min_gain, args.max_dist, args.dry_run, args.report, args.allow_smaller)
         elif args.cmd == "run":
@@ -1514,7 +1512,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                     sys.exit("Cannot identify the volume ID from EPUB; specify --id (the id in reader?id=...)")
                 log(f"Volume ID from EPUB: {vid}")
             work = do_fetch(vid, Path(args.work) / vid, fetch_mode(args), args.profile, args.cdp, args.browser, args.cookies,
-                            args.authuser, args.allow_partial, args.login_timeout, args.pace, args.limit, args.quit_browser, not args.no_cover, args.headless)
+                            args.authuser, args.allow_partial, args.login_timeout, args.pace, args.limit, args.quit_browser, headless=args.headless)
             do_replace(args.epub, work, args.out, args.min_gain, args.max_dist, args.dry_run, args.report, args.allow_smaller)
     except KeyboardInterrupt:
         warn("Interrupted")
