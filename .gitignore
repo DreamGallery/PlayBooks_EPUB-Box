@@ -55,10 +55,14 @@ IndexedDB/
 report*.json
 *-report.json
 
+# uv (uv.lock and .python-version are intentionally tracked)
+.venv/
+.venv-*/
+.uv/
+
 # Python / tools / build products
 __pycache__/
 *.py[cod]
-.venv/
 venv/
 .pytest_cache/
 .mypy_cache/

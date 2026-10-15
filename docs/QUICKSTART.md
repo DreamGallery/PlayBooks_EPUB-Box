@@ -1,6 +1,6 @@
 # 使用说明
 
-Miniconda 安装及启动见 [README](../README.md)。以下命令均在项目目录、执行 `conda activate epub` 后运行。
+uv 安装见 [README](../README.md)。以下命令均在项目目录通过 `uv run` 运行，无需手动激活环境。
 
 ## GUI 流程
 
@@ -14,7 +14,7 @@ Miniconda 安装及启动见 [README](../README.md)。以下命令均在项目�
 Google 登录也可单独执行：
 
 ```sh
-python playbooks_app.py login-google
+uv run python playbooks_app.py login-google
 ```
 
 使用自定义配置时，登录和处理都传入相同的 `--profile "目录"`，并使用同一浏览器（CLI 可指定 `--browser "可执行文件"`）。不要选择日常 Chrome 的用户数据目录，也不要从 macOS 复制登录配置到 Windows。
@@ -26,12 +26,12 @@ python playbooks_app.py login-google
 ## 常用命令
 
 ```sh
-python playbooks_app.py import-auth --folder "已有授权目录"
-python playbooks_app.py authorize
-python playbooks_app.py process --input "书籍.acsm"
-python playbooks_app.py process --input "书籍.epub" --images "playbooks_work/卷ID"
-python playbooks_app.py process --input "书籍.acsm" --output-dir "输出目录"
-python playbooks_app.py process --input "书籍.epub" --dry-run
+uv run python playbooks_app.py import-auth --folder "已有授权目录"
+uv run python playbooks_app.py authorize
+uv run python playbooks_app.py process --input "书籍.acsm"
+uv run python playbooks_app.py process --input "书籍.epub" --images "playbooks_work/卷ID"
+uv run python playbooks_app.py process --input "书籍.acsm" --output-dir "输出目录"
+uv run python playbooks_app.py process --input "书籍.epub" --dry-run
 ```
 
 `--dry-run` 不发布 EPUB，但可能进行准备和下载、写入缓存。统一入口需显式添加 `--overwrite` 才能覆盖已有输出。
@@ -39,9 +39,9 @@ python playbooks_app.py process --input "书籍.epub" --dry-run
 抓图 CLI 也可分步使用：
 
 ```sh
-python playbooks_hires.py fetch --id "卷ID"
-python playbooks_hires.py replace --epub "书籍.epub" --images "playbooks_work/卷ID"
-python playbooks_hires.py run --epub "书籍.epub" --id "卷ID"
+uv run python playbooks_hires.py fetch --id "卷ID"
+uv run python playbooks_hires.py replace --epub "书籍.epub" --images "playbooks_work/卷ID"
+uv run python playbooks_hires.py run --epub "书籍.epub" --id "卷ID"
 ```
 
 抓图 CLI 的 `replace` / `run` 保留原有覆盖行为，目标文件存在时会被替换；需要覆盖保护时使用统一入口。源 EPUB 不会被覆盖，生成文件校验通过后才发布。
@@ -54,8 +54,8 @@ python playbooks_hires.py run --epub "书籍.epub" --id "卷ID"
 
 ## Windows 注意事项
 
-- 使用 Miniconda 的 Anaconda Prompt，执行 `conda activate epub` 后运行 GUI 或 CLI；环境采用 Python 3.12 x64。
-- 激活环境后可运行 `pythonw playbooks_gui.py` 启动 GUI，不创建 Python 控制台窗口；排查启动错误时使用 `python playbooks_gui.py`。
+- 使用 uv 管理环境（首次 `uv sync`，之后用 `uv run` 执行 GUI 或 CLI）；环境采用 Python 3.12 x64。
+- 使用 `uv run pythonw playbooks_gui.py` 启动 GUI，不创建 Python 控制台窗口；排查启动错误时使用 `uv run python playbooks_gui.py`。
 - 自动查找常见位置的 Chrome、Edge 和 Brave；自定义安装可在 CLI 传 `--browser "浏览器完整路径"`。
 - 路径含空格时加引号。使用短目录，避免 Windows 总路径长度限制；文件名中的保留字符及设备名称会处理。
 - 不要跨设备复制正在使用的 Chrome 配置；在 Windows 上重新登录 Google。ADE 授权通过导入功能处理。
@@ -63,7 +63,7 @@ python playbooks_hires.py run --epub "书籍.epub" --id "卷ID"
 
 ## 排查
 
-- 先运行 `python playbooks_app.py status` 检查依赖和浏览器。
+- 先运行 `uv run python playbooks_app.py status` 检查依赖和浏览器。
 - 找不到书：填写正确卷 ID，并确认登录账户确实拥有该书。
 - 插图缺失：显示浏览器确认可读范围；预览及出版源本身缺失的图片无法保证补齐。
 - 授权占用：等待其他处理任务退出，不要手动删除正在使用的锁文件。

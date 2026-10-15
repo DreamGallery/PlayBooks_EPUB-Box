@@ -8,30 +8,28 @@
 
 ## 安装与启动
 
-先安装 [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install) 和 Chrome 或 Edge。以下使用独立的 Python 3.12 环境。项目应放在当前用户可写的短路径，例如 `C:\Users\你的用户名\PlayBooks`，避免系统目录及公共同步目录。
+先安装 [uv](https://docs.astral.sh/uv/getting-started/installation/) 和 Chrome 或 Edge。以下使用 uv 管理的独立 Python 3.12 环境。项目应放在当前用户可写的短路径，例如 `C:\Users\你的用户名\PlayBooks`，避免系统目录及公共同步目录。
 
-首次安装：Windows 打开 Miniconda 的 Anaconda Prompt，macOS 打开已初始化 conda 的终端；先进入项目目录，再执行：
+首次安装：打开终端，先进入项目目录，再执行：
 
 ```sh
-conda create -n epub python=3.12
-conda activate epub
-pip install -r requirements.txt
-python playbooks_app.py gui
+uv sync
+uv run python playbooks_app.py gui
 ```
 
 先在「ADE 授权」导入已有授权或登录授权。首次下载 Google 原图前，点击「输出与处理」中的「登录 Google」，在不带调试参数的普通浏览器中手动登录，关闭该浏览器的所有窗口后再开始处理。后续抓图默认无窗口运行，完成后关闭本工具启动的浏览器。
 
 ## CLI
 
-先执行 `conda activate epub`，再在项目目录运行以下命令：
+在项目目录运行以下命令，`uv run` 会自动使用项目环境，无需手动激活：
 
 ```sh
-python playbooks_app.py status
-python playbooks_app.py login-google
-python playbooks_app.py process --input "书籍.acsm"
-python playbooks_app.py process --input "书籍.epub" --id "卷ID"
-python playbooks_app.py process --input "书籍.acsm" --prepare-only
-python playbooks_hires.py inspect --epub "书籍.epub"
+uv run python playbooks_app.py status
+uv run python playbooks_app.py login-google
+uv run python playbooks_app.py process --input "书籍.acsm"
+uv run python playbooks_app.py process --input "书籍.epub" --id "卷ID"
+uv run python playbooks_app.py process --input "书籍.acsm" --prepare-only
+uv run python playbooks_hires.py inspect --epub "书籍.epub"
 ```
 
 默认输出到输入文件旁的 `hires/书名.epub`；优先采用 Play 图书元数据书名，回退到 EPUB 书名。统一处理入口不会默认覆盖已有输出。更多参数见 `--help` 和 [使用说明](docs/QUICKSTART.md)。
